@@ -1,0 +1,20 @@
+{
+    "name": "puredata-oled",
+    "version": "1.0.0",
+    "description": "PureData + OLED (Organelle patches)",
+    "author": "redraw",
+    "launch_mode": "list",
+    "depends_on": [
+        "jack.service",
+        "pisound-ctl.service",
+        "touchosc2midi.service",
+        "amidiauto.service",
+        "oled.service"
+    ],
+    "scripts": {
+        "install": "install.sh",
+        "launch": "launch.sh",
+        "list": "list.sh",
+        "stop": "stop.sh"
+    }
+}
