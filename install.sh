@@ -1,21 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
 SOFTWARE_TO_INSTALL="puredata pisound-ctl amidiauto pisound-ctl-scripts-puredata"
 OLED_DEPS="python3-dev python3-pip libfreetype6-dev libjpeg-dev build-essential libopenjp2-7 libtiff5"
+PD_DIR=/home/patch/Pd
 
 sudo apt-get update
 sudo apt-get install $SOFTWARE_TO_INSTALL $OLED_DEPS -y
 
 echo "Downloading OLED OSC + Organelle patches"
-git clone --recurse-submodules https://github.com/redraw/flagellum /tmp/flagellum
+[ -d /tmp/flagellum ] || git clone --recurse-submodules https://github.com/redraw/flagellum /tmp/flagellum
 
-mkdir -p /home/patch/Pd/{patches,externals}
+mkdir -p $PD_DIR/patches
+mkdir -p $PD_DIR/externals
 
-cp -rv /tmp/flagellum/pd/externals /home/patch/Pd/externals
-cp -rv {/tmp/flagellum/pd,/home/patch/Pd}/patches/organelle
-cp -rv /tmp/flagellum/mother.pd /home/patch/Pd/patches/organelle/mother.pd
-cp -rv /tmp/flagellum/oled /usr/local/oled
+rsync -aP /tmp/flagellum/pd/ $PD_DIR/
+cp /tmp/flagellum/mother.pd $PD_DIR/patches/organelle/mother.pd
+cp -r /tmp/flagellum/oled /usr/local/oled
+
 rm -rf /tmp/flagellum
+sudo chown -R patch:patch $PD_DIR
 
 echo "Installing OLED requirements"
 sudo pip3 install -r /usr/local/oled/requirements.txt
