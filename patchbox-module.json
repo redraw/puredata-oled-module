@@ -8,8 +8,11 @@
         "jack.service",
         "pisound-ctl.service",
         "touchosc2midi.service",
-        "amidiauto.service",
-        "oled.service"
+        "oled.service",
+        {
+            "service": "amidiauto.service",
+            "config": "amidiauto.conf"
+        }
     ],
     "scripts": {
         "install": "install.sh",
